@@ -1,0 +1,58 @@
+/*Page Background*/
+.body{
+    background-color:#0B172A;
+    margin: 0;
+    padding: 0;
+}
+
+/*Header Box*/
+.ym-box {
+    color: white;
+    background-color:#BC4132;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
+    font-size: 10px;
+}
+/*Personal Info Navbar*/
+nav {
+    min-height: 20px;
+    background-color: #463940;
+}
+
+/*Personal Info Unorderedlist*/
+.pinfo ul {
+    list-style-type: none;
+    text-align:center;
+}
+
+/*Personal Info Text*/
+.info {
+    display: inline-block;
+    color:white;
+    text-align: center;
+    padding-bottom: 0px;
+    padding-right: 40px;
+}
+
+/*Skills/Courses Cards*/
+.card-body {
+    background-color: #463940;
+    color: white;
+}
+
+/*Used For text box text*/
+.text_content {
+    margin: 20px;
+    margin-left:21%;
+    margin-right:21%;
+    padding-left: 5px;
+    color:white;
+    border-style: solid;
+    border-color:#287EC7;
+}
+
+/*Tabs for text boxes*/
+.tab {
+    margin-left:40px;
+}
