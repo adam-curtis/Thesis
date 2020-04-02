@@ -36,25 +36,25 @@ def calculateBandsArray(files):
     return bandsArray
 
 
-hdfFiles = 'C:\\Thesis\\ChinaModelTest'
+tifFiles = 'C:\\Thesis\\ChinaModelTest'
 projDB = "projResults.gdb"
 projectedGeoTiffDB ='C:\\Thesis\\' + projDB
 
 #Creates File Geodatabase for the reprojected geoTiffs
 if not arcpy.Exists('C:\\Thesis\\'+projDB):
     arcpy.CreateFileGDB_management("C:\\Thesis", projDB)
-    
+
 arcpy.env.workspace = "C:\\Thesis\\" + projDB
  
 #Reprojects the geoTIFFs created in R to work with Mercator and the ground monitor data, and then adds the file path of the specified
          #fileList since there are twelve separate geoTIFFs for a given day
 fileList = dict();          
-for subdir, dirs, files in os.walk(hdfFiles):
+for subdir, dirs, files in os.walk(tifFiles):
     for file in files:
         if file.endswith(".tif"):
             fileList[file] = []
-
-for subdir, dirs, files in os.walk(hdfFiles):
+print(fileList)
+for subdir, dirs, files in os.walk(tifFiles):
      for file in files:
          if file.endswith(".tif"):
              currTile = subdir.split("\\")[-1]

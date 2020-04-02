@@ -1,9 +1,12 @@
-devtools::install_github("MatMatt/MODIS", ref = "develop")
+#.libPaths("C:/Users/acurt/R")
+#install.packages("fs")
+#devtools::install_github("MatMatt/MODIS", ref = "develop")
 library(MODIS)
 library(reticulate)
 
 #Sets up environment paths for downloading the HDF and creating geoTiff data, along with the location of my GDAL
 localPath = "C:\\Thesis"
+year = 2016
 outPath = "C:\\Thesis"
 GdalPath = "C:\\OSGeo4W64\\bin"
 TifFolder = paste("USAgeoTiff",year,sep="")

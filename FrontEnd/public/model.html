@@ -1,0 +1,290 @@
+<html>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src="createMap.js"></script>
+    <script defer>
+        $(function(){
+        $("#nav-placeholder").load("navbar.html");
+        });
+    </script>
+    <head>
+        <link rel="stylesheet" href="css/styles.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+        <title>Data</title>
+    </head>
+    <div id="nav-placeholder"></div>
+
+    <div>
+        <form id="createNewUser" action="/newUser" method="POST">
+            <div>
+                <h2><label for="date"> Date: </label></h2>
+                <input type="text" class="form-control" name="date" id="date">
+            </div>
+            <div>
+                Search <input type="text" id="countryText" onkeyup="searchSel()">
+                <select id="countrySelect" onclick="updateInput()">
+                    <option>Select...
+                </select>
+            </div>
+            <button id="submitButton" type="submit">Test</button>
+        </form>
+    </div>
+    <script type="text/javascript">
+        function searchSel() {
+            var input=document.getElementById('countryText').value.toLowerCase();
+            var output=document.getElementById('countrySelect').options;
+            for(var i=0;i<output.length;i++) {
+                var curr_output = output[i].value.toLowerCase();
+                //console.log(curr_output.indexOf(input), input);
+                if(curr_output.indexOf(input)==0){
+                    console.log(output[i]);
+                    output[i].selected=true;
+                }
+                if(document.getElementById('countryText').value==''){
+                    output[0].selected=true;
+                }
+            }
+        }
+        function updateInput(value) {
+            var selected = document.getElementById('countrySelect').value;
+            var input = document.getElementById('countryText');
+            input.value = selected;
+        }
+    </script>
+    <script>
+        document.getElementById("submitButton").addEventListener("click", async (e) => {
+        e.preventDefault();
+            try
+            {   
+                const date = document.getElementById("date").value;
+                const country = document.getElementById("countrySelect").value;
+
+                const userData = {
+                    date : date,
+                    country : country
+                };
+                const fetchConfigData = {
+                    method: "POST",
+                    body: JSON.stringify(userData), 
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                };
+                const response = await fetch("/model.html", fetchConfigData);
+                
+                if(!response.ok) {
+                    console.log("Error with the response data");
+                }
+
+            }   catch (err) {
+                console.log(`Error: ${err}`);
+            }
+        });
+    </script>
+    <script>
+        var countryList = [
+		"Afghanistan",
+		"Albania",
+		"Algeria",
+		"Andorra",
+		"Angola",
+		"Antigua and Barbuda",
+		"Argentina",
+		"Armenia",
+		"Australia",
+		"Austria",
+		"Azerbaijan",
+		"Bahamas",
+		"Bahrain",
+		"Bangladesh",
+		"Barbados",
+		"Belarus",
+		"Belgium",
+		"Belize",
+		"Benin",
+		"Bhutan",
+		"Bolivia",
+		"Bosnia and Herzegovina",
+		"Botswana",
+		"Brazil",
+		"Brunei",
+		"Bulgaria",
+		"Burkina Faso",
+		"Burundi",
+		"Cambodia",
+		"Cameroon",
+		"Canada",
+		"Cape Verde",
+		"Central African Republic",
+		"Chad",
+		"Chile",
+		"China",
+		"Colombi",
+		"Comoros",
+		"Congo (Brazzaville)",
+		"Congo",
+		"Costa Rica",
+		"Cote d'Ivoire",
+		"Croatia",
+		"Cuba",
+		"Cyprus",
+		"Czech Republic",
+		"Denmark",
+		"Djibouti",
+		"Dominica",
+		"Dominican Republic",
+		"East Timor (Timor Timur)",
+		"Ecuador",
+		"Egypt",
+		"El Salvador",
+		"Equatorial Guinea",
+		"Eritrea",
+		"Estonia",
+		"Ethiopia",
+		"Fiji",
+		"Finland",
+		"France",
+		"Gabon",
+		"Gambia, The",
+		"Georgia",
+		"Germany",
+		"Ghana",
+		"Greece",
+		"Grenada",
+		"Guatemala",
+		"Guinea",
+		"Guinea-Bissau",
+		"Guyana",
+		"Haiti",
+		"Honduras",
+		"Hungary",
+		"Iceland",
+		"India",
+		"Indonesia",
+		"Iran",
+		"Iraq",
+		"Ireland",
+		"Israel",
+		"Italy",
+		"Jamaica",
+		"Japan",
+		"Jordan",
+		"Kazakhstan",
+		"Kenya",
+		"Kiribati",
+		"Korea, North",
+		"Korea, South",
+		"Kuwait",
+		"Kyrgyzstan",
+		"Laos",
+		"Latvia",
+		"Lebanon",
+		"Lesotho",
+		"Liberia",
+		"Libya",
+		"Liechtenstein",
+		"Lithuania",
+		"Luxembourg",
+		"Macedonia",
+		"Madagascar",
+		"Malawi",
+		"Malaysia",
+		"Maldives",
+		"Mali",
+		"Malta",
+		"Marshall Islands",
+		"Mauritania",
+		"Mauritius",
+		"Mexico",
+		"Micronesia",
+		"Moldova",
+		"Monaco",
+		"Mongolia",
+		"Morocco",
+		"Mozambique",
+		"Myanmar",
+		"Namibia",
+		"Nauru",
+		"Nepal",
+		"Netherlands",
+		"New Zealand",
+		"Nicaragua",
+		"Niger",
+		"Nigeria",
+		"Norway",
+		"Oman",
+		"Pakistan",
+		"Palau",
+		"Panama",
+		"Papua New Guinea",
+		"Paraguay",
+		"Peru",
+		"Philippines",
+		"Poland",
+		"Portugal",
+		"Qatar",
+		"Romania",
+		"Russia",
+		"Rwanda",
+		"Saint Kitts and Nevis",
+		"Saint Lucia",
+		"Saint Vincent",
+		"Samoa",
+		"San Marino",
+		"Sao Tome and Principe",
+		"Saudi Arabia",
+		"Senegal",
+		"Serbia and Montenegro",
+		"Seychelles",
+		"Sierra Leone",
+		"Singapore",
+		"Slovakia",
+		"Slovenia",
+		"Solomon Islands",
+		"Somalia",
+		"South Africa",
+		"Spain",
+		"Sri Lanka",
+		"Sudan",
+		"Suriname",
+		"Swaziland",
+		"Sweden",
+		"Switzerland",
+		"Syria",
+		"Taiwan",
+		"Tajikistan",
+		"Tanzania",
+		"Thailand",
+		"Togo",
+		"Tonga",
+		"Trinidad and Tobago",
+		"Tunisia",
+		"Turkey",
+		"Turkmenistan",
+		"Tuvalu",
+		"Uganda",
+		"Ukraine",
+		"United Arab Emirates",
+		"United Kingdom",
+		"United States",
+		"Uruguay",
+		"Uzbekistan",
+		"Vanuatu",
+		"Vatican City",
+		"Venezuela",
+		"Vietnam",
+		"Yemen",
+		"Zambia",
+		"Zimbabwe"
+	];
+        var select = document.getElementById("countrySelect");
+        for(var i = 0; i < countryList.length; i++) {
+            var country = countryList[i];
+            var el = document.createElement("option");
+            el.textContent = country;
+            el.value = country;
+            select.appendChild(el);
+        }
+    </script>
+</html>

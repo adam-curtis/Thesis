@@ -11,7 +11,16 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.19.0",
+    "child_process": "^1.0.2",
     "express": "^4.17.1",
-    "morgan": "^1.9.1"
+    "express-handlebars": "^3.1.0",
+    "morgan": "^1.9.1",
+    "node": "^13.10.1",
+    "nodejs": "0.0.0",
+    "r-script": "0.0.4",
+    "requirejs": "^2.3.6"
+  },
+  "devDependencies": {
+    "browserify": "^16.5.0"
   }
 }
