@@ -7,14 +7,13 @@ if (!require(reticulate)) install.packages("reticulate", repos = "http://cran.us
 #if (!require(tidyverse)) install.packages("tidyverse", repos = "http://cran.us.r-project.org"); library(tidyverse)
 GdalPath = "C:\\OSGeo4W64\\bin"
 args <- commandArgs(trailingOnly=TRUE)
-country <- args[1]
+projectName <- args[1]
+print(projectName)
 date <- args[2]
 date <- str_replace_all(date,"/","-")
 dateSplit <- strsplit(date,"-")
 date <- paste(dateSplit[[1]][3],"-",dateSplit[[1]][1],"-",dateSplit[[1]][2],sep="")
-country_date <- paste(country,date)
-country_date <- str_replace_all(country_date," ","_")
-projectFilePath <- paste(here(),"FrontEnd",country_date,sep="/")
+projectFilePath <- paste(here(),"FrontEnd/Projects",projectName,sep="/")
 tifFilePath <- paste(projectFilePath,"TIFs",sep="/")
 if (dir.exists(projectFilePath)){
     print("exists")
@@ -56,7 +55,7 @@ for(i in 1:vLength) {
        tileH = vectorTileH[i],tileV = vectorTileV[i],outDirPath=projectFilePath)
 }
 for(i in 1:vLength) {
-  output_dir <- paste(here(),"/FrontEnd/",country_date,"/TIFs/H",toString(vectorTileH[i]),"V",toString(vectorTileV[i]),sep="")
+  output_dir <- paste(here(),"/FrontEnd/Projects/",projectName,"/TIFs/H",toString(vectorTileH[i]),"V",toString(vectorTileV[i]),sep="")
   runGdal("MCD19A2"
           , begin = date, end = date
           , tileH = vectorTileH[i],tileV = vectorTileV[i]
@@ -64,9 +63,10 @@ for(i in 1:vLength) {
           , SDSstring = "1000000000000",localArcPath=output_dir,forceDownload=TRUE)
 }
 print(date)
-country <- paste("\"",country,"\"",sep="")
+projectName <- paste("\"",projectName,"\"",sep="")
 
-system_call <-paste("python createMap.py",projectFilePath,country,date)
+system_call <-paste("python createMap.py",projectFilePath,projectName,date)
 #print(system_call)
-system(system_call)
+python_response <- system(system_call, intern=TRUE)
 print("Finished")
+print(python_response)
