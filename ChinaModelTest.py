@@ -48,7 +48,7 @@ arcpy.env.workspace = "C:\\Thesis\\" + projDB
  
 #Reprojects the geoTIFFs created in R to work with Mercator and the ground monitor data, and then adds the file path of the specified
          #fileList since there are twelve separate geoTIFFs for a given day
-fileList = dict();          
+fileList = dict()        
 for subdir, dirs, files in os.walk(tifFiles):
     for file in files:
         if file.endswith(".tif"):

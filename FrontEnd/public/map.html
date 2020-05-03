@@ -10,7 +10,7 @@
   For more information about the widgets-legend sample, read the original sample description at developers.arcgis.com.
   https://developers.arcgis.com/javascript/latest/sample-code/widgets-legend/index.html
   -->
-<title>Legend widget - 4.14</title>
+<title>Legend widget</title>
     <link
       rel="stylesheet"
       href="https://js.arcgis.com/4.14/esri/themes/light/main.css"
@@ -56,9 +56,12 @@
           var legend = new Legend({
           view: view
             });
-
-          // Add widget to the bottom right corner of the view
-          view.ui.add(legend, "bottom-right");
+          // Add widget to the bottom left corner of the view
+          view.ui.add(legend, "bottom-left");
+          return featureLayer2.queryExtent();
+        })
+        .then(function(response) {
+          view.goTo(response.extent);
         });
       });
     </script>

@@ -18,22 +18,21 @@ async function completeRScript(projectName, date, res)
         shell: true, encoding : 'utf8'
     });
     id = result.stdout;
-    console.log(result.stderr);
+    console.log(result.stdout);
     console.log(result.stderr);
     console.log("Finished Map Creation");
-    //console.log(id);
     return id;
 }
 
 app.get('/',function(req,res) {
-    res.sendFile('public/data.html' , { root : __dirname});
+    res.sendFile('public/homePage.html' , { root : __dirname});
 });
 
 app.post('/model.html', async (req, res) => {
     var date = req.body.date;
     var projectName = req.body.projectName;
-    console.log(date, projectName);
     var ret;
+
     try {
         ret = await completeRScript(projectName,date,res);
     }
@@ -45,14 +44,10 @@ app.post('/model.html', async (req, res) => {
     ret = ret.replace("\"","");
     ret = ret.replace(" ","");
     ret = ret.replace("\"","");
-
-    console.log("STRING:",ret,"ENDSTRING");
+    console.log(ret);
     res.json(ret);
 });
 
-app.get('js/jquery.datetimepicker.js', async (req, res) => {
-    res.sendFile('node_modules/' , { root : __dirname});
-});
 app.use( (req,res) => {
     res.sendStatus(404);
 });

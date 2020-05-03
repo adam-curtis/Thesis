@@ -3,7 +3,7 @@ import sys
 import arcpy
 import os
 from pathlib import Path
-print("Got here")
+
 def averageFields(fieldsArray):
     test = []
     for i in fieldsArray:
@@ -27,6 +27,7 @@ def calculateFieldsArray(files):
                 fieldsArray.append('!b'+str(d)+'_'+fileName+'!')
     return fieldsArray
 
+
 def calculateBandsArray(files):
     bandsArray = []
     for file in files:
@@ -37,16 +38,25 @@ def calculateBandsArray(files):
             bandsArray.append(fileName+'/Band_'+str(i))
     return bandsArray
 
+
+def createFileList(tifFiles):
+    tempFileList = dict()     
+    for subdir, dirs, files in os.walk(tifFiles):
+        for file in files:
+            if file.endswith(".tif"):
+                tempFileList[file] = []
+    return tempFileList
+    
+#Setup Environment, grab the project path from the passed system argument and grab the project name
 projectFilePath = sys.argv[1]
 projectName = sys.argv[2]
 date = sys.argv[3]
-sys.stdout.write(projectFilePath + '\n')
-sys.stdout.write(projectName + '\n')
-sys.stdout.write(date + '\n')
 tifFiles = projectFilePath + '\\TIFS'
 projDB = projectName +".gdb"
 projectedGeoTiffDB =projectFilePath + "\\" + projDB
 frontEndPath = projectFilePath[:projectFilePath.rfind("/")]
+
+#Copy default project -- ArcGIS does not allow you to create a project from scratch, so I needed to have a blank default one to automate new projects
 copyAprx = arcpy.mp.ArcGISProject(frontEndPath + r"\CopyProject\CopyProject.aprx")
 copyAprx.saveACopy(projectFilePath+"\\"+projectName+".aprx")
 aprx = arcpy.mp.ArcGISProject(projectFilePath+"\\"+projectName+".aprx")
@@ -54,16 +64,11 @@ aprx = arcpy.mp.ArcGISProject(projectFilePath+"\\"+projectName+".aprx")
 #Creates File Geodatabase for the reprojected geoTiffs
 if not arcpy.Exists(projectedGeoTiffDB):
     arcpy.CreateFileGDB_management(projectFilePath,projDB)
-print(projectedGeoTiffDB)
 arcpy.env.workspace = projectedGeoTiffDB
 aprx.defaultGeodatabase = projectedGeoTiffDB
 
-fileList = dict()     
-for subdir, dirs, files in os.walk(tifFiles):
-    for file in files:
-        if file.endswith(".tif"):
-            fileList[file] = []
-print(fileList) 
+#Since all geoTIFFs for a specific day are named the same, the tiles need to be extracted from the separate TIF folders and put into separate values in an array
+fileList = createFileList(tifFiles)  
 for subdir, dirs, files in os.walk(tifFiles):
      for file in files:
          if file.endswith(".tif"):
@@ -77,54 +82,43 @@ for subdir, dirs, files in os.walk(tifFiles):
              
 counter = 1
 projectMap = aprx.listMaps()[0]
-print(fileList)
+
+#Creates a mosiac image from the passed in geoTIFF images and then calculates a new raster showing the estimated particulate matter using my model
 for file in fileList.keys():
     mosiacImage = "satelliteMosiac" + str(counter)
     rasterImage = "particulateMatter" + str(counter)
+
+    #Finds all bands within the geoTIFFs, and finds the average pixel value across the specified area if there is any overlap, then uses the
+    #Raster Calculator to calculate the estimate particulate matter value
     bandsArray = calculateBandsArray(fileList[file])
-    print(bandsArray)
     if not (arcpy.Exists(mosiacImage)):
         arcpy.MosaicToNewRaster_management(bandsArray,projectedGeoTiffDB,mosiacImage, arcpy.SpatialReference(3857),
                                        "16_BIT_SIGNED","#","1", "MEAN","MATCH")
     expression = "Int(27.89284+0.06231*\""+mosiacImage+"\")"
     if not (arcpy.Exists(rasterImage)):
         arcpy.gp.RasterCalculator_sa(expression, rasterImage)
-   
+    
     rasterPath = projectedGeoTiffDB + "\\" + rasterImage
-    symbologyCopyPath = frontEndPath + r"\CopyProject\copySymbology.lyrx"
+    symbologyCopyPath = frontEndPath + r"\CopyProject\ParticulateMatterTest.lyrx"
     polygonLayerName = "ParticulateMatter"
     plName = "ParticulateMatter2_5"
-    #result = arcpy.MakeRasterLayer_management(rasterPath, rasterName,"SIMPLIFY","VALUE")
-    #layer = result.getOutput(0)
+
+    #Uses the symbology from a layer within the copied project, used to show consistent symbology for all automated projects
+    #Converted raster to a polygon layer because rasters were producing errors and not showing during the upload process
     result2 = arcpy.RasterToPolygon_conversion(rasterImage,polygonLayerName)
     featureLayer = arcpy.MakeFeatureLayer_management(result2[0],plName)
     arcpy.ApplySymbologyFromLayer_management(featureLayer[0],symbologyCopyPath)
     projectMap.addLayer(featureLayer[0])
     lyr = projectMap.listLayers(plName)[0]
-    # sym = lyr.symbology
-    # breakLabels = ['≤ 50 - Good', '≤ 100 - Moderate', '≤ 150 - Unhealthy for sensitive groups','≤ 200 - Unhealthy', '≤ 300 - Very Unhealthy', '≤ 565 - Hazardous']
-    # breakValues = [50,100,150,200,300,565]
-    # colorHues = [100,60,40,0,278,331]
-    # colorSats = [100,100,100,100,50.36,50.36]
-    # colorVals = [65.88,96,100,90.2,53.73,53.73]
-    # classCounter = 0
-    # sym.renderer.breakCount = 6
-    # for brk in sym.renderer.classBreaks:
-    #     brk.upperBound = breakValues[classCounter]
-    #     brk.label = breakLabels[classCounter]
-    #     brk.symbol.color = {'HSV' : [colorHues[classCounter], colorSats[classCounter], colorVals[classCounter],100]}
-    #     classCounter += 1
-    
-    # lyr.symbology = sym
     counter = counter + 1
     
 aprx.save()
 
+#Setup project paths and layers to be used in ArcGIS Online uploading process
 service = projectName
 sddraft_output_filename = projectFilePath+"\\"+service+".sddraft"
 sd_output_filename = projectFilePath+"\\"+service+".sd"
 lyrs = []
-
 lyrs.append(projectMap.listLayers()[0])
 
 # Create TileSharingDraft and set service properties
@@ -133,18 +127,22 @@ print(arcpy.GetMessages())
 sharing_draft.summary = "My Summary"
 sharing_draft.tags = "My Tags"
 sharing_draft.description = "My Description"
+
 # Create Service Definition Draft file
 sharing_draft.exportToSDDraft(sddraft_output_filename)
 print(arcpy.GetMessages())
+
 # Stage Service
 print(sddraft_output_filename, sd_output_filename)
 arcpy.StageService_server(sddraft_output_filename, sd_output_filename)
 print(arcpy.GetMessages())
+
 # Share to portal
 print("Uploading Service Definition...")
 result = arcpy.UploadServiceDefinition_server(sd_output_filename, "My Hosted Services",in_override="OVERRIDE_DEFINITION", in_public="PUBLIC")
 print(arcpy.GetMessages())
 
+#Print portal item id and return that id to the R Script to be passed to the JavaScript File
 print("ArcGISOnline ID: ",result[3])
 print("Successfully Uploaded service.")
 sys.stdout.write(result[3])

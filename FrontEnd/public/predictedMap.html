@@ -76,6 +76,11 @@
 
           // Add widget to the bottom right corner of the view
           view.ui.add(legend, "bottom-right");
+
+          return featureLayer.queryExtent();
+        })
+        .then(function(response) {
+          view.goTo(response.extent);
         });
       });
     </script>

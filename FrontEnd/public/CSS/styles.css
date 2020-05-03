@@ -20,39 +20,121 @@ nav {
     background-color: #463940;
 }
 
-/*Personal Info Unorderedlist*/
-.pinfo ul {
-    list-style-type: none;
-    text-align:center;
-}
-
-/*Personal Info Text*/
-.info {
-    display: inline-block;
-    color:white;
+#navbar {
+    overflow: hidden;
+    background-color: #333;
+  }
+  
+  #navbar a {
+    float: left;
+    display: block;
+    color: #f2f2f2;
     text-align: center;
-    padding-bottom: 0px;
-    padding-right: 40px;
-}
-
-/*Skills/Courses Cards*/
-.card-body {
-    background-color: #463940;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+  }
+  
+  #navbar a:hover {
+    background-color: #ddd;
+    color: black;
+  }
+  
+  #navbar a.active {
+    background-color: #4CAF50;
     color: white;
+  }
+  
+  .content {
+    padding: 16px;
+  }
+
+#datepicker {
+    font-size:20px;
+    width: 160px;
+    height:40px;
+    display:inline-block;
+    margin: 0 auto;
+
+   }
+
+#datepicker:read-only {
+    background: white;
+    color: black;
+  }
+
+#formSubmission{
+    display: block;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
-/*Used For text box text*/
-.text_content {
-    margin: 20px;
-    margin-left:21%;
-    margin-right:21%;
-    padding-left: 5px;
-    color:white;
-    border-style: solid;
-    border-color:#287EC7;
+#estimateInfo{
+    margin-left:100px;
+    margin-right:100px;
+    font-size: 20px;
 }
 
-/*Tabs for text boxes*/
-.tab {
-    margin-left:40px;
+#projectName{
+    border-radius:5px;
+    font-size:20px;
+    width:200px;
+    display:inline-block;
+    color:black;
+}
+
+#ChinaPM25 {
+  height:600; 
+  width:100%;
+  margin-top:10px;
+  margin-bottom:20px;
+  margin-left:5px;
+}
+
+#actualPM25 {
+  height:600; 
+  width:95%;
+  margin-bottom: 20px;
+  margin-top:10px;
+}
+
+#ChinaLabel {
+  width:100%;
+  text-align: center;
+}
+
+#actualLabel {
+  width:100%;
+  text-align: center;
+}
+
+#mapApplicabilityLabel {
+  margin-top: 10px;
+  font-size: 40px;
+}
+
+#pName {
+  margin-right: 20px;
+  text-align: center;
+  font-size: 50px;
+  font-family: "Trebuchet MS";
+}
+
+#dateVal {
+  text-align: center;
+  font-size: 50px;
+  font-family: "Trebuchet MS";
+}
+
+@-webkit-keyframes autofill {
+  0%,100% {
+      color: black;
+      background: transparent;
+  }
+}
+
+input:-webkit-autofill {
+  -webkit-animation-delay: 1s; /* Safari support - any positive time runs instantly */
+  -webkit-animation-name: autofill;
+  -webkit-animation-fill-mode: both;
 }

@@ -11,7 +11,7 @@
         if($this[0].pathname == current){
             $this.addClass('active');
         }
-        else if(current == "/" && $this[0].pathname == "/data.html")
+        else if(current == "/" && $this[0].pathname == "/homePage.html")
         {
           $this.addClass('active');
         }
@@ -34,60 +34,18 @@ body {
   text-align: center;
 }
 
-#navbar {
-  overflow: hidden;
-  background-color: #333;
-}
-
-#navbar a {
-  float: left;
-  display: block;
-  color: #f2f2f2;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px;
-}
-
-#navbar a:hover {
-  background-color: #ddd;
-  color: black;
-}
-
-#navbar a.active {
-  background-color: #4CAF50;
-  color: white;
-}
-
-.content {
-  padding: 16px;
-}
-
-.sticky {
-  position: fixed;
-  top: 0;
-  width: 100%;
-}
-
-.sticky + .content {
-  padding-top: 60px;
-}
 </style>
 </head>
 <body>
 
-<div class="header">
+<div class="ym-box">
   <h2>Estimating Particulate Matter</h2>
   <p>Computer Science & Geographic Information Science BA Thesis</p>
 </div>
 
 <div id="navbar" class ="nav">
-  <a class="nav-link active" href="/data.html">Data</a>
-  <a class="nav-link" href="/pm25.html">PM 2.5</a>
+  <a class="nav-link active" href="/homePage.html">Home</a>
   <a class="nav-link" href="/mappage.html">Map Applicability</a>
-  <a class="nav-link" href="/linearRegression.html">Linear Regression</a>
-  <a class="nav-link" href="/temporalSeasonal.html">Temporal & Seasonal Results</a>
-  <a class="nav-link" href="/latitude.html">Latitudinal Results</a>
   <a class="nav-link" href="/model.html">Create Estimated Map</a>
 </div>
 
@@ -95,15 +53,6 @@ body {
 window.onscroll = function() {myFunction()};
 
 var navbar = document.getElementById("navbar");
-var sticky = navbar.offsetTop;
-
-function myFunction() {
-  if (window.pageYOffset >= sticky) {
-    navbar.classList.add("sticky")
-  } else {
-    navbar.classList.remove("sticky");
-  }
-}
 
 $('.navbar-nav .nav-link').click(function(){
     $('.navbar-nav .nav-link').removeClass('active');
