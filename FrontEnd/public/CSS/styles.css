@@ -138,3 +138,18 @@ input:-webkit-autofill {
   -webkit-animation-name: autofill;
   -webkit-animation-fill-mode: both;
 }
+
+ul {
+  display: inline-block;
+  text-align: left;
+}
+
+#particulateMatterTitle {
+  font-size: 50px;
+  margin-top: 10px;
+}
+
+hr {
+  height: 2px !important;
+  background-color: #333;
+}

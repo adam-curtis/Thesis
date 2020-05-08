@@ -13,14 +13,104 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
         <title>Home</title>
     </head>
-    <div id="nav-placeholder">
+    <div id="nav-placeholder"></div>
 
+    <div style="text-align:center;">
+        <p id="particulateMatterTitle">What is Particulate Matter 2.5?</p>
+        <div class="row" style="margin-top:15px;text-align:center">
+            <div class="col-md-2"></div>
+            <div class="col-md-4" style="display:inline-block;text-align:left;">
+                <p style="margin-top:20px;">➔ Mixture of solid particles & liquid droplets in the air</p>
+                <p>➔ Correlated with respiratory problems & mortality</p>
+                <p>➔ Requires expensive ground monitors to accurately measure areas for particulate matter</p>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p>Natural Causes</p>
+                        <ul>
+                            <li>Forest Fires</li>
+                            <li>Dust Storms</li>
+                            <li>Volcanic Eruptions</li>
+                        </ul>
+                    </div> 
+                    <div class="col-md-6">
+                        <p>Man-Made Causes</p>
+                        <ul>
+                            <li>Automobiles</li>
+                            <li>Power Plants</li>
+                            <li>Burning Fossil Fuels</li>
+                        </ul> 
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3" style="text-align:right;margin-top:35px;">
+                <img src="images/pollutionBackground.png" style="width:650px;height:475px;">
+            </div>
+        </div>
     </div>
-
+    <hr>
+    <div style="text-align: center;">
+        <p id="particulateMatterTitle">How Can This Problem Be Addressed Economically?</p>
+        <div>
+            <ul>
+                <p>➔ Create a model using supervised learning to predict particulate matter and remidiate at located hotspots</p>
+                <p>➔ Find a more readily-available solution that can be freely used worldwide (satellite imagery)</p>
+                <p>➔ Train model using accurate, recorded ground monitor data across the continental United States</p>
+                <p>➔ Apply this model to other countries and time periods</p>
+            </ul>
+        </div>
+        <img src="images/supervised_learning.jpg" style="width:800;height:410;">
+    </div>
+    <hr>
     <div>
-      <img src="images/pm25.png">
-      <img src="images/pm25usamap.png">
-      <img src="images/satellite.png">
-      <img src="images/mcd19a2.png">
+        <div class="row" style="text-align: center;">
+            <div class="col">
+                <label>Independent Variable</label>
+                <img src="images/mcd19a2.png" style="width:750;height:375">
+                <label style="font-size:22px;display:block">MODIS Aerosol Optical Depth Satellite Imagery</label>
+                <label style="font-size:22px">Beginning in February 2000 to Present</label>
+            </div>
+            <div class="col">
+                <label>Dependent Variable</label>
+                <img src="images/pm25usamap.png" style="width:750;height:375">
+                <label style="font-size:22px;display:block">EPA Particulate Matter 2.5 Data - Continental U.S.</label>
+                <label style="font-size:22px">Measured Over 1000+ Ground Monitor Sensors</label>
+            </div>
+        </div>
+    </div>
+    <div style="text-align:center;margin-top:15px;margin-left:50px">
+        <img src="images/right-arrow.png">
+        <pre style="display:inline;border:black solid 1px;font-size:30px;">Train Model</pre>
+        <img src="images/left-arrow.png" style="margin-left:-15px;">
+    </div>
+    <div style="text-align: center;">
+        <label style="margin-top:15px;">Linear Regression Models - Continental U.S. 2000, 2009, & 2018</label> 
+        <div>
+            <img src="images/linearRegression2000.png">
+            <img src="images/linearRegression2009.png">
+        </div>
+        <div>
+            <img src="images/linearRegression2018.png">
+        </div>
+    </div>
+    
+    <div style="text-align: center;">
+        <img src="images/down-arrow.png">
+        <div style="display:inline;">
+            <label style="font-size:30px;width:20%;border: solid 1px black;font-family: SFMono-Regular,Menlo,Monaco,Consolas,'Liberation Mono','Courier New',monospace;">
+                Apply Model In Other Countries & Time Periods</label>
+        </div>
+    </div>
+    
+    <div style="text-align: center;">
+        <div class="row">
+            <div class="col-md-7" style="text-align: left;padding-right:0px;">
+                <label for="ChinaPM25" id="ChinaLabel">Model Estimated PM 2.5 - China November 8th, 2019</label>
+                <iframe src="map.html" id="ChinaPM25"></iframe>
+            </div>
+            <div class="col-md-5" style="padding-left:0px;padding-right:0px;">
+                <label for="actualPM25" id ="actualLabel">Actual Recorded PM 2.5 - China November 8th, 2019</label>
+                <img src="images/realpm25map.png" id = "actualPM25">
+            </div>
+        </div>
     </div>
 </html>
