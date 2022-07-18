@@ -16,7 +16,7 @@
     "express": "^4.17.1",
     "express-handlebars": "^3.1.0",
     "jquery": "^3.5.0",
-    "jquery-ui": "^1.12.1",
+    "jquery-ui": "^1.13.2",
     "morgan": "^1.9.1",
     "node": "^13.10.1",
     "nodejs": "0.0.0",
